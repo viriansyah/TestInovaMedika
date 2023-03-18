@@ -38,7 +38,7 @@ export default function Register() {
                 source={require('../Images/zxczxc.jpg')}
                 resizeMode="cover"
                 style={styles.container}>
-            <Text style={styles.judulform}>Form Register Pasien</Text>
+              <Text style={styles.judulform}>Form Register Pasien</Text>
                 <ScrollView>    
                 <View style={styles.loginFormContainer}>
                     <View style={styles.inputContainer}>
