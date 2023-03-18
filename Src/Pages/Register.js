@@ -42,7 +42,6 @@ export default function Register() {
                 <ScrollView>    
                 <View style={styles.loginFormContainer}>
                     <View style={styles.inputContainer}>
-                        
                         <Text style={styles.inputLabel}>No KTP Pasien</Text>
                         <TextInput
                             style={styles.input}
