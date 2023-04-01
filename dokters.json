@@ -1,0 +1,113 @@
+[{
+  "_id": {
+    "$oid": "641928fb42af43133e2626e9"
+  },
+  "id_dokter": 1,
+  "no_pegawai": "234345",
+  "nama": "dr. Sandy",
+  "jadwal_praktek": "Senin, Rabu, Jumat",
+  "jam_praktek": "08.00-11.00 & 15.00-18.00",
+  "createdAt": {
+    "$date": "2023-03-21T03:48:11.492Z"
+  },
+  "updatedAt": {
+    "$date": "2023-03-21T03:48:11.492Z"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "6419298742af43133e2626ec"
+  },
+  "id_dokter": 2,
+  "no_pegawai": "123456",
+  "nama": "dr. Ahmad",
+  "jadwal_praktek": "Selasa, Kamis, Sabtu",
+  "jam_praktek": "08.00-11.00 & 13.00-16.00",
+  "createdAt": {
+    "$date": "2023-03-21T03:50:31.889Z"
+  },
+  "updatedAt": {
+    "$date": "2023-03-21T03:50:31.889Z"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "64192a9142af43133e2626f3"
+  },
+  "id_dokter": 3,
+  "no_pegawai": "903743",
+  "nama": "dr. Asep",
+  "jadwal_praktek": "Senin, Jumat",
+  "jam_praktek": "08.00-11.00 & 13.00-16.00",
+  "createdAt": {
+    "$date": "2023-03-21T03:54:57.843Z"
+  },
+  "updatedAt": {
+    "$date": "2023-03-21T03:54:57.843Z"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "64192ad942af43133e2626f5"
+  },
+  "id_dokter": 4,
+  "no_pegawai": "843242",
+  "nama": "dr. Beni",
+  "jadwal_praktek": "Selasa, Kamis",
+  "jam_praktek": "08.00-12.00 & 14.00-17.00",
+  "createdAt": {
+    "$date": "2023-03-21T03:56:09.614Z"
+  },
+  "updatedAt": {
+    "$date": "2023-03-21T03:56:09.614Z"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "64192c8442af43133e2626f8"
+  },
+  "id_dokter": 5,
+  "no_pegawai": "238465",
+  "nama": "dr. Reva",
+  "jadwal_praktek": "Rabu, Sabtu",
+  "jam_praktek": "07.00-10.00 & 12.00-15.00",
+  "createdAt": {
+    "$date": "2023-03-21T04:03:16.922Z"
+  },
+  "updatedAt": {
+    "$date": "2023-03-21T04:03:16.922Z"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "64192d7142af43133e2626fa"
+  },
+  "id_dokter": 6,
+  "no_pegawai": "653232",
+  "nama": "dr. Surya",
+  "jadwal_praktek": "Senin, Selasa, Rabu",
+  "jam_praktek": "07.00-10.00 & 12.00-15.00",
+  "createdAt": {
+    "$date": "2023-03-21T04:07:13.906Z"
+  },
+  "updatedAt": {
+    "$date": "2023-03-21T04:07:13.906Z"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "64192da042af43133e2626fc"
+  },
+  "id_dokter": 7,
+  "no_pegawai": "493753",
+  "nama": "dr. Iki",
+  "jadwal_praktek": "Kamis, Jumat, Sabtu",
+  "jam_praktek": "07.00-11.00 & 13.00-17.00",
+  "createdAt": {
+    "$date": "2023-03-21T04:08:00.264Z"
+  },
+  "updatedAt": {
+    "$date": "2023-03-21T04:08:00.264Z"
+  },
+  "__v": 0
+}]

@@ -1,0 +1,52 @@
+[{
+  "_id": {
+    "$oid": "641b3ad71bc4217f8706eea1"
+  },
+  "no_kartu": "123345",
+  "nama": "Agus",
+  "tgl_periksa": {
+    "$date": "2023-03-22T17:27:54.652Z"
+  },
+  "dokter": "dr. Sandy",
+  "createdAt": {
+    "$date": "2023-03-22T17:28:55.032Z"
+  },
+  "updatedAt": {
+    "$date": "2023-03-22T17:28:55.032Z"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "641b3ae81bc4217f8706eea5"
+  },
+  "no_kartu": "435234",
+  "nama": "Hana",
+  "tgl_periksa": {
+    "$date": "2023-03-22T17:27:54.652Z"
+  },
+  "dokter": "dr. Reva",
+  "createdAt": {
+    "$date": "2023-03-22T17:29:12.443Z"
+  },
+  "updatedAt": {
+    "$date": "2023-03-22T17:29:12.443Z"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "641b3afc1bc4217f8706eeab"
+  },
+  "no_kartu": "4567547",
+  "nama": "Farah",
+  "tgl_periksa": {
+    "$date": "2023-12-22T17:27:00.000Z"
+  },
+  "dokter": "dr. Reva",
+  "createdAt": {
+    "$date": "2023-03-22T17:29:32.671Z"
+  },
+  "updatedAt": {
+    "$date": "2023-03-22T17:29:32.671Z"
+  },
+  "__v": 0
+}]

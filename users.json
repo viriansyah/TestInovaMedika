@@ -1,0 +1,41 @@
+[{
+  "_id": {
+    "$oid": "64196fa78109c7fd22066b28"
+  },
+  "no_ktp": "123453",
+  "no_kartu": "123456",
+  "nama": "Sandy",
+  "email": "Sandy@gmail.com",
+  "tgl_lahir": {
+    "$date": "2012-03-21T08:49:00.000Z"
+  },
+  "alamat": "Cikutra",
+  "password": "Sandy123",
+  "createdAt": {
+    "$date": "2023-03-21T08:49:43.084Z"
+  },
+  "updatedAt": {
+    "$date": "2023-03-21T08:49:43.084Z"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "641ad68d7bfaef98bcc1310a"
+  },
+  "no_ktp": "123123",
+  "no_kartu": "13123",
+  "nama": "Reva",
+  "email": "Reva@gmail.com",
+  "tgl_lahir": {
+    "$date": "2023-03-22T10:20:35.131Z"
+  },
+  "alamat": "Antapani",
+  "password": "Reva123",
+  "createdAt": {
+    "$date": "2023-03-22T10:21:01.883Z"
+  },
+  "updatedAt": {
+    "$date": "2023-03-22T10:21:01.883Z"
+  },
+  "__v": 0
+}]
