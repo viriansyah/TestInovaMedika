@@ -1,5 +1,8 @@
-import { StyleSheet, Text, TextInput, View, Button } from 'react-native'
-import React, { useState } from 'react'
+import { StyleSheet, Text, TextInput, View, Button, Alert } from 'react-native'
+import React, { useState, useEffect } from 'react'
+
+import axios from 'axios';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import { SelectList } from 'react-native-dropdown-select-list'
 
@@ -9,21 +12,79 @@ export default function Reservasi() {
     const [noKartuPasien, setNoKartuPasien]= useState('');
     const [namaPasien, setNamaPasien]= useState('');
     const [pilihTanggal, setPilihTanggal]= useState('');
+    const [namaDokter, setNamaDokter]=useState("")
 
     const [selected, setSelected]= useState("")
 
     const [date, setDate] = useState(new Date())
     const [open, setOpen] = useState(false)
+
+    const apirsv='http://localhost:8000/rsvp'
+    const apidiagnosa='http://localhost:8000/diagnosa'
+
+    const formreservasi={
+        "no_kartu":noKartuPasien,
+        "nama":namaPasien,
+        "tgl_periksa":date,
+        "dokter":namaDokter
+    }
+
+    const getToken = async () => {
+        try {
+          const token = await AsyncStorage.getItem('token');
+          return token;
+        } catch (error) {
+          console.error(error);
+        }
+      };
+
+    const handleReservasi=async ()=>{
+        const token=await getToken()
+        const config={
+            headers: {
+                'Authorization': `Bearer ${token}`
+              }
+        }
+
+        try {
+            const response = await axios.post(apirsv, formreservasi, config);
+            axios.post(apidiagnosa, formreservasi, config);
+            console.log(response.data);
+          } catch (error) {
+            console.error(error);
+          }
+      }
+
+    const [dataDokter, setDataDokter]= useState([])
+    const apidokter='http://localhost:8000/dokter'
     
-    const data = [
-        {key:'1', value:'dr. Asep'},
-        {key:'2', value:'dr. Agus'},
-        {key:'3', value:'dr. Angga'},
-        {key:'4', value:'dr. Ahnap'},
-        {key:'5', value:'dr. Aza'},
-        {key:'6', value:'dr. Alam'},
-        {key:'7', value:'dr. Atut'},
-    ]
+    const handleDokter=async()=>{
+        try{
+            const token=await AsyncStorage.getItem('token')
+            if(!token){
+                throw new Error('Token tidak ditemukan di Async Storage reservasi.');
+            }
+        const response = await axios.get(apidokter,{
+            headers: {
+              Authorization: `Bearer ${token}`
+          }})
+          if (response.status===200){
+            let newArray = response.data.map((item) => {
+                return {key: item.id_dokter, value: item.nama}
+            })
+                setDataDokter(newArray)
+          }else{
+            throw new Error('Gagal mengambil data dari API.');
+          }
+        }catch(error) {
+          Alert.alert('Error', error.message);
+        }
+    }
+
+    useEffect(()=>{
+      handleDokter()
+    },[])
+
 
   return (
     <>
@@ -32,6 +93,7 @@ export default function Reservasi() {
         mode='date'
         open={open}
         date={date}
+        locale='id'
         onConfirm={(date) => {
             setOpen(false);
             setDate(date);
@@ -62,7 +124,7 @@ export default function Reservasi() {
                     value={namaPasien}
                     onChangeText={val => setNamaPasien(val)}
                     keyboardType='default'
-                    maxLength={20}>
+                    maxLength={40}>
                 </TextInput>
             </View>
 
@@ -81,17 +143,16 @@ export default function Reservasi() {
             <View style={styles.inputContainer}>
                 <Text style={styles.inputLabel}>Silahkan Pilih Dokter</Text>
                 <SelectList
-                    setSelected={(val) => setSelected(val)}
-                    data={data}
+                    setSelected={(value) => setNamaDokter(value)}
+                    data={dataDokter}
                     save="value"
-                    defaultOption={{ key:'1', value:'dr. Asep' }}
                     style={styles.dropdown} />
             </View>
 
             <View style={styles.inputContainer}>
                 <Button
                     title='Confirm' 
-                    onPress={()=>{setNoKartuPasien("");setNamaPasien("");setSelected("")
+                    onPress={()=>{setNoKartuPasien("");setNamaPasien("");setSelected(""),handleReservasi()
                     }}/>
             </View>
         </View></>

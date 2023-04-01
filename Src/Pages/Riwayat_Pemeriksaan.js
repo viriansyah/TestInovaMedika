@@ -1,65 +1,53 @@
-import { StyleSheet, Text, View, FlatList } from 'react-native'
-import React from 'react'
+import { StyleSheet, Text, View, FlatList, Alert } from 'react-native'
+import React ,{useState, useEffect}from 'react'
+
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import axios from 'axios';
 
 export default function Riwayat_Pemeriksaan() {
-  const Pemeriksaan = [
-    {
-    id: '1',
-    kartu:'123123123123',
-    nama:'Agus',
-    tanggal:'2023-01-17',
-    dokter:'dr. Asep',
-    diagnosa:'Batuk Pilek'
-    },
-    {
-    id: '2',
-    kartu:'312313243768',
-    nama:'Hana',
-    tanggal:'2023-02-27',
-    dokter:'dr. Agus',
-    diagnosa:'Radang Tenggorokan'
-    },
-    {
-    id: '3',
-    kartu:'323463331346',
-    nama:'Jeni',
-    tanggal:'2023-05-15',
-    dokter:'dr. Ahnap',
-    diagnosa:'Sakit Gigi'
-    },
-    {
-    id: '4',
-    kartu:'123653123423',
-    nama:'Kodir',
-    tanggal:'2023-08-18',
-    dokter:'dr. Aza',
-    diagnosa:'Migrain'
-    },
-    {
-    id: '5',
-    kartu:'536747235975',
-    nama:'Yati',
-    tanggal:'2023-09-28',
-    dokter:'dr. Atut',
-    diagnosa:'Pilek'
-    },
-    {
-    id: '6',
-    kartu:'756734573457',
-    nama:'Toto',
-    tanggal:'2023-05-14',
-    dokter:'dr. Alam',
-    diagnosa:'Panas'
-    },
-    ];
+  const [data, setData]= useState([])
+  const api='http://localhost:8000/diagnosa'
+
+  const handleRiwayatPemeriksaan=async()=>{
+    try{
+      const token=await AsyncStorage.getItem('token')
+      if(!token){
+        throw new Error('Token tidak ditemukan di Async Storage riwayat pemeriksaan.');
+      }
+
+      const response = await axios.get(api,{
+        headers: {
+          Authorization: `Bearer ${token}`
+      }})
+      if (response.status===200){
+        setData(response.data);
+      }else{
+        throw new Error('Gagal mengambil data dari API.');
+      }
+    }catch(error) {
+      console.log('Error', error.message);
+    }
+  }
+
+  const refresh=()=>{
+    const interval = setInterval(() => {
+      handleRiwayatPemeriksaan()
+    },5000)
+    return()=>clearInterval(interval)
+  }
+
+  useEffect(()=>{
+    handleRiwayatPemeriksaan(),
+    refresh()
+  },[])
 
   const renderItem=({item})=>{
     return(
       <View style={{flex:1,flexDirection:'row'}}>
         <View style={styles.item}>
-        <Text>No Kartu : {item.kartu}</Text>
+        <Text>No Kartu : {item.no_kartu}</Text>
         <Text>Nama Pasien : {item.nama}</Text>
-        <Text>Tanggal Periksa : {item.tanggal}</Text>
+        <Text>Tanggal Periksa : {item.tgl_periksa}</Text>
         <Text>Nama Dokter : {item.dokter}</Text>
         <Text>Diagnosa : {item.diagnosa}</Text>
         </View>
@@ -71,7 +59,7 @@ export default function Riwayat_Pemeriksaan() {
   return (
     <View style={styles.container}>
       <FlatList
-      data={Pemeriksaan}
+      data={data}
       renderItem={renderItem}
       keyExtractor={(item)=>item.id}/>
     </View>
@@ -83,12 +71,6 @@ const styles = StyleSheet.create({
     flex:1,
     padding:10
   },
-  inputLabel:{
-    fontWeight:'500',
-    color:'#212121',
-    fontSize:16,
-    padding:10
-},
   item:{
     flex:1,
     flexDirection:'column',

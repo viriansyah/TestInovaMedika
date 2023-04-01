@@ -1,15 +1,36 @@
-import { ScrollView,TouchableOpacity,TextInput, StyleSheet, Text, View, ImageBackground, Dimensions } from 'react-native'
+import { ScrollView,TouchableOpacity,TextInput, StyleSheet, Text, View, ImageBackground, Dimensions, Alert } from 'react-native'
 import React,{useState} from 'react'
 import { useNavigation } from '@react-navigation/native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import axios from 'axios';
 
 export default function Login() {
   const [email,setEmail]=useState('')
   const [password, setPassword]=useState('')
 
+  const api='http://localhost:8000/auth/login'
+
   const navigation = useNavigation();
 
-  const handleLogin=()=>{
-    navigation.navigate('Bottom_Tab')
+  const req={
+    "email":email,
+    "password":password
+  }
+
+  const handleLogin=async()=>{
+    try{
+      const response=await axios.post(api,req)
+
+      if(response.status===200){
+        const token=response.data.token
+        await AsyncStorage.setItem('token',token)
+        navigation.navigate('Bottom_Tab')
+      }else{
+        throw new Error('Email atau password salah');
+      }
+    }catch (error) {
+      Alert.alert('Login gagal', error.message);
+    }
   }
 
   const handleRegister=()=>{

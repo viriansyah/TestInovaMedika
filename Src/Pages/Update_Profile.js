@@ -4,9 +4,10 @@ import DatePicker from 'react-native-date-picker'
 import { ScrollView } from 'react-native-gesture-handler'
 import { useNavigation } from '@react-navigation/native';
 
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
 
-export default function Register() {
+export default function UpdateProfile() {
     const [noKartu, setNoKartu]=useState('')
     const [noKtp, setNoKtp]=useState('')
     const [namaPasien, setNamaPasien]=useState('')
@@ -16,13 +17,10 @@ export default function Register() {
     const [open, setOpen]=useState(false)
     const [alamat, setAlamat]=useState('')
     const [password, setPassword]=useState('')
-    const [errorMsg, setErrorMsg]=useState('')
+    const [data, setData]= useState([])
     const navigation = useNavigation();
     const api='http://localhost:8000/user'
 
-    const handleLogin=()=>{
-      navigation.navigate('Login')
-    }
 
     const formdata={
       "no_ktp":noKtp,
@@ -35,8 +33,26 @@ export default function Register() {
       "password":password,
     }
 
-    const handleRegister=()=>{
-      axios.post(api,formdata).then((res)=>{console.log(res.data)},navigation.navigate('Login'))
+    const handleupdate=async()=>{
+      try{
+        const token=await AsyncStorage.getItem('token')
+        if(!token){
+          throw new Error('Token tidak ditemukan di Async Storage update profile.');
+        }
+  
+        const response = await axios.put(api,formdata,{
+          headers: {
+            Authorization: `Bearer ${token}`
+        }})
+        if (response.status===200){
+          setData(response.data);
+          navigation.navigate('Profile')
+        }else{
+          throw new Error('Gagal mengambil data dari API.');
+        }
+      }catch(error) {
+        Alert.alert('Error', error.message);
+      }
     }
 
     return (
@@ -58,7 +74,7 @@ export default function Register() {
                 source={require('../Images/zxczxc.jpg')}
                 resizeMode="cover"
                 style={styles.container}>
-              <Text style={styles.judulform}>Form Register Pasien</Text>
+              <Text style={styles.judulform}>Form Update Pasien</Text>
                 <ScrollView>    
                 <View style={styles.loginFormContainer}>
                     <View style={styles.inputContainer}>
@@ -159,8 +175,8 @@ export default function Register() {
 
                 <TouchableOpacity 
                     style={styles.buttonLogin} 
-                    onPress={handleRegister}>
-                    <Text style={styles.buttonText}>Register</Text>
+                    onPress={handleupdate}>
+                    <Text style={styles.buttonText}>Update</Text>
                     </TouchableOpacity>
                 </ScrollView>
 

@@ -1,59 +1,45 @@
-import { StyleSheet, Text, View, FlatList } from 'react-native'
-import React from 'react'
+import { StyleSheet, Text, View, FlatList, Alert } from 'react-native'
+import React, { useEffect, useState } from 'react'
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import axios from 'axios';
 
 export default function Jadwal_Dokter() {
-  const Pemeriksaan = [
-    {
-    id: '1',
-    dokter:'dr. Asep',
-    jadwal:'Senin-Rabu-Jumat',
-    jam:'09.00-12.00 & 13.00-16.00'
-    },
-    {
-    id: '2',
-    dokter:'dr. Agus',
-    jadwal:'Selasa-Kamis-Sabtu',
-    jam:'07.00-12.00'
-    },
-    {
-    id: '3',
-    dokter:'dr. Angga',
-    jadwal:'Senin-Jumat',
-    jam:'07.00-10.00 & 14.00-17.00'
-    },
-    {
-    id: '4',
-    dokter:'dr. Ahnap',
-    jadwal:'Selasa-Sabtu',
-    jam:'09.00-12.00 & 14.00-17.00'
-    },
-    {
-    id: '5',
-    dokter:'dr. Aza',
-    jadwal:'Senin-Kamis',
-    jam:'07.00-12.00'
-    },
-    {
-    id: '6',
-    dokter:'dr. Alam',
-    jadwal:'Kamis-Sabtu',
-    jam:'07.00-10.00 & 13.00-17.00'
-    },
-    {
-      id: '7',
-      dokter:'dr. Atut',
-      jadwal:'Senin-Rabu-Jumat',
-      jam:'12.00-17.00'
-      },
-    ];
+  const [data, setData]= useState([])
+  const api='http://localhost:8000/dokter'
 
+  const handleDokter=async()=>{
+    try{
+      const token=await AsyncStorage.getItem('token')
+      if(!token){
+        throw new Error('Token tidak ditemukan di Async Storage jadwal.');
+      }
+
+      const response = await axios.get(api,{
+        headers: {
+          Authorization: `Bearer ${token}`
+      }})
+      if (response.status===200){
+        setData(response.data);
+      }else{
+        throw new Error('Gagal mengambil data dari API.');
+      }
+    }catch(error) {
+      Alert.alert('Error', error.message);
+    }
+  }
+
+  useEffect(()=>{
+    handleDokter()
+  },[])
+
+  
   const renderItem=({item})=>{
     return(
       <View style={{flex:1,flexDirection:'row'}}>
         <View style={styles.item}>
-        <Text>Nama Dokter : {item.dokter}</Text>
-        <Text>Jadwal Prakter : {item.jadwal}</Text>
-        <Text>Jam Praktek : {item.jam}</Text>
+        <Text>Nama Dokter : {item.nama}</Text>
+        <Text>Jadwal Prakter : {item.jadwal_praktek}</Text>
+        <Text>Jam Praktek : {item.jam_praktek}</Text>
         </View>
       </View>
     )
@@ -63,7 +49,7 @@ export default function Jadwal_Dokter() {
   return (
     <View style={styles.container}>
       <FlatList
-      data={Pemeriksaan}
+      data={data}
       renderItem={renderItem}
       keyExtractor={(item)=>item.id}/>
     </View>
